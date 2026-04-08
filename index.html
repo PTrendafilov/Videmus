@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videmus — We Guide the Driver</title>
+    <link rel="icon" type="image/svg+xml" href="source/videmus_icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+        /* ── Variables ─────────────────────────────────────── */
+        :root {
+            --navy:   #1E3A8A;
+            --blue:   #2563EB;
+            --sky:    #60A5FA;
+            --white:  #FFFFFF;
+            --light:  #F8FAFC;
+            --gray:   #64748B;
+            --dark:   #334155;
+        }
+
+        /* ── Reset ─────────────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: var(--dark); background: var(--white); }
+
+        /* ── NAV ───────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            z-index: 100;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(30,58,138,0.08);
+            padding: 0 6%;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-text {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--navy); }
+
+        /* ── HERO ──────────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            background: var(--navy);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 6% 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        .hero-icon { margin-bottom: 36px; position: relative; z-index: 1; }
+
+        .hero-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+            font-weight: 500;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            position: relative; z-index: 1;
+        }
+
+        .hero-tagline {
+            font-size: clamp(44px, 7vw, 82px);
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            position: relative; z-index: 1;
+        }
+
+        .hero-tagline span { color: var(--sky); }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 15px 42px;
+            background: var(--sky);
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.25s;
+            position: relative; z-index: 1;
+        }
+
+        .hero-cta:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.25);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50%       { opacity: 0.8; }
+        }
+
+        /* ── SECTIONS SHARED ───────────────────────────────── */
+        section { padding: 110px 6%; }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.15;
+            margin-bottom: 28px;
+        }
+
+        .section-title.light { color: var(--white); }
+
+        /* ── PROBLEM ───────────────────────────────────────── */
+        .problem { background: var(--light); text-align: center; }
+
+        .problem-inner { max-width: 800px; margin: 0 auto; }
+
+        .problem-text {
+            font-size: 18px;
+            line-height: 1.85;
+            color: var(--dark);
+            font-weight: 400;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 36px;
+            margin-top: 72px;
+        }
+
+        .stat-number {
+            font-size: 50px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+        }
+
+        /* ── SCENARIOS ─────────────────────────────────────── */
+        .scenarios { background: var(--white); }
+
+        .scenarios-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .scenarios-list {
+            display: flex;
+            flex-direction: column;
+            gap: 180px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .scenario-row {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .scenario-row.reverse {
+            grid-template-columns: 2fr 3fr;
+        }
+
+        .scenario-row.reverse .scenario-video { order: 2; }
+        .scenario-row.reverse .scenario-content { order: 1; }
+
+        .scenario-video {
+            width: 100%;
+            display: block;
+            border-radius: 14px;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            box-shadow: 0 24px 64px rgba(30,58,138,0.14);
+        }
+
+        .scenario-number {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 14px;
+        }
+
+        .scenario-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 18px;
+            line-height: 1.2;
+        }
+
+        .scenario-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        .scenario-divider {
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--navy), var(--sky));
+            border-radius: 2px;
+            margin: 22px 0;
+        }
+
+        /* ── ROADMAP ───────────────────────────────────────── */
+        .roadmap { background: var(--navy); text-align: center; }
+
+        .roadmap-header { margin-bottom: 72px; }
+
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .phases::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: 18%; right: 18%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(96,165,250,0.4), transparent);
+        }
+
+        .phase { padding: 0 28px; }
+
+        .phase-dot {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            border: 1px solid rgba(96,165,250,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 26px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--sky);
+            background: rgba(96,165,250,0.06);
+        }
+
+        .phase-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .phase-text {
+            font-size: 14px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.45);
+        }
+
+        .phase-tag {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 5px 14px;
+            background: rgba(96,165,250,0.08);
+            border: 1px solid rgba(96,165,250,0.2);
+            border-radius: 20px;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--sky);
+            text-transform: uppercase;
+        }
+
+        /* ── CONTACT ───────────────────────────────────────── */
+        .contact { background: var(--white); text-align: center; }
+
+        .contact-inner { max-width: 560px; margin: 0 auto; }
+
+        .contact-text {
+            font-size: 17px;
+            color: var(--gray);
+            line-height: 1.75;
+            margin-bottom: 44px;
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+            border-bottom: 2px solid var(--sky);
+            padding-bottom: 4px;
+            transition: color 0.2s;
+        }
+
+        .contact-email:hover { color: var(--blue); }
+
+        /* ── FOOTER ────────────────────────────────────────── */
+        footer {
+            background: var(--navy);
+            padding: 32px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 5px;
+        }
+
+        .footer-motto {
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* ── RESPONSIVE ────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .scenario-row,
+            .scenario-row.reverse {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-row.reverse .scenario-video { order: 0; }
+            .scenario-row.reverse .scenario-content { order: 0; }
+
+            .phases,
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .phases::before { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+
+            footer {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ── NAV ──────────────────────────────────────────────── -->
+    <nav>
+        <a href="#hero" class="nav-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" width="34" height="20">
+                <path d="M 60 22 L 170 162 L 280 22" fill="none" stroke="#1E3A8A" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="64" y1="30" x2="166" y2="148" stroke="white" stroke-width="2.5" stroke-dasharray="13,10" stroke-linecap="round"/>
+                <line x1="276" y1="30" x2="174" y2="148" stroke="white" stroke-width="2.5" stroke-dasharray="13,10" stroke-linecap="round"/>
+                <rect x="164" y="153" width="12" height="20" rx="4" fill="white"/>
+                <rect x="161" y="157" width="3" height="4" rx="1" fill="white"/>
+                <rect x="176" y="157" width="3" height="4" rx="1" fill="white"/>
+            </svg>
+            <span class="nav-logo-text">VIDEMUS</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#scenarios">Scenarios</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- ── HERO ─────────────────────────────────────────────── -->
+    <section class="hero" id="hero">
+        <div class="hero-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" width="130" height="78">
+                <defs>
+                    <linearGradient id="hg" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#60A5FA"/>
+                        <stop offset="100%" style="stop-color:#ffffff"/>
+                    </linearGradient>
+                </defs>
+                <path d="M 60 22 L 170 162 L 280 22" fill="none" stroke="url(#hg)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="64" y1="30" x2="166" y2="148" stroke="#1E3A8A" stroke-width="2.5" stroke-dasharray="13,10" stroke-linecap="round" opacity="0.7"/>
+                <line x1="276" y1="30" x2="174" y2="148" stroke="#1E3A8A" stroke-width="2.5" stroke-dasharray="13,10" stroke-linecap="round" opacity="0.7"/>
+                <rect x="164" y="153" width="12" height="20" rx="4" fill="#1E3A8A" opacity="0.75"/>
+                <rect x="161" y="157" width="3" height="4" rx="1" fill="#1E3A8A" opacity="0.75"/>
+                <rect x="176" y="157" width="3" height="4" rx="1" fill="#1E3A8A" opacity="0.75"/>
+            </svg>
+        </div>
+        <p class="hero-sub">Augmented Reality Driving Guidance</p>
+        <h1 class="hero-tagline">We guide <span>the driver.</span></h1>
+        <a href="#problem" class="hero-cta">Discover Videmus</a>
+        <div class="scroll-hint">Scroll</div>
+    </section>
+
+    <!-- ── PROBLEM ──────────────────────────────────────────── -->
+    <section class="problem" id="problem">
+        <div class="problem-inner">
+            <p class="section-label">The Problem</p>
+            <h2 class="section-title">Drivers need guidance.<br>We provide it.</h2>
+            <p class="problem-text">
+                Every day, drivers face moments of uncertainty on the road — a tight parking space, a pedestrian stepping onto a crossing, a light turning green at a busy intersection. Inexperienced drivers feel exposed in these moments. Experienced ones make mistakes. Videmus addresses this through real-time AR guidance powered by Computer Vision, helping drivers make the right decision at the right moment — and reducing the crashes that result from hesitation and human error.
+            </p>
+            <div class="stats">
+                <div>
+                    <div class="stat-number">1.35M</div>
+                    <div class="stat-label">Road deaths annually worldwide</div>
+                </div>
+                <div>
+                    <div class="stat-number">90%</div>
+                    <div class="stat-label">Of crashes caused by human error</div>
+                </div>
+                <div>
+                    <div class="stat-number">50M</div>
+                    <div class="stat-label">Injured in road accidents each year</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── SCENARIOS ────────────────────────────────────────── -->
+    <section class="scenarios" id="scenarios">
+        <div class="scenarios-header">
+            <p class="section-label">How It Works</p>
+            <h2 class="section-title">AR guidance for every moment<br>on the road</h2>
+        </div>
+        <div class="scenarios-list">
+
+            <!-- Scenario 1: Parking — video left, text right -->
+            <div class="scenario-row">
+                <video class="scenario-video" autoplay muted loop playsinline>
+                    <source src="source/Parking.mp4" type="video/mp4">
+                </video>
+                <div class="scenario-content">
+                    <p class="scenario-number">Scenario 01</p>
+                    <h3 class="scenario-title">Parking</h3>
+                    <div class="scenario-divider"></div>
+                    <p class="scenario-text">Parking in tight or unfamiliar spaces is one of the most stressful moments for any driver. Videmus projects an AR arrow directly onto your field of view, guiding the car into the space with precision. No more guessing. No more scrapes.</p>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Pedestrian — text left, video right -->
+            <div class="scenario-row reverse">
+                <video class="scenario-video" autoplay muted loop playsinline>
+                    <source src="source/Pedestrian.mp4" type="video/mp4">
+                </video>
+                <div class="scenario-content">
+                    <p class="scenario-number">Scenario 02</p>
+                    <h3 class="scenario-title">Pedestrian Crossing</h3>
+                    <div class="scenario-divider"></div>
+                    <p class="scenario-text">A pedestrian stepping onto the road can appear in seconds. Videmus detects the crossing in real time, highlights the person with a warning overlay, and instructs the driver to stop — before the situation becomes dangerous.</p>
+                </div>
+            </div>
+
+            <!-- Scenario 3: Traffic — video left, text right -->
+            <div class="scenario-row">
+                <video class="scenario-video" autoplay muted loop playsinline>
+                    <source src="source/Traffic light.mp4" type="video/mp4">
+                </video>
+                <div class="scenario-content">
+                    <p class="scenario-number">Scenario 03</p>
+                    <h3 class="scenario-title">Traffic Navigation</h3>
+                    <div class="scenario-divider"></div>
+                    <p class="scenario-text">Intersections demand quick, accurate decisions. Videmus reads the traffic light, prepares the driver for the change, and guides the turn with a clear AR path overlay — keeping the driver confident and the road safe.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── ROADMAP ───────────────────────────────────────────── -->
+    <section class="roadmap" id="roadmap">
+        <div class="roadmap-header">
+            <p class="section-label">Product Roadmap</p>
+            <h2 class="section-title light">Built for the future.<br>Starting today.</h2>
+        </div>
+        <div class="phases">
+            <div class="phase">
+                <div class="phase-dot">01</div>
+                <h3 class="phase-title">Concept & Partnerships</h3>
+                <p class="phase-text">Establishing the Videmus brand, validating the concept through driving school and NGO partnerships, and building the foundation for real-world testing.</p>
+                <span class="phase-tag">Now</span>
+            </div>
+            <div class="phase">
+                <div class="phase-dot">02</div>
+                <h3 class="phase-title">Phone Application</h3>
+                <p class="phase-text">A mobile app delivering AR guidance through a dashboard-mounted phone — making Videmus accessible in any car, without specialist hardware.</p>
+                <span class="phase-tag">Next</span>
+            </div>
+            <div class="phase">
+                <div class="phase-dot">03</div>
+                <h3 class="phase-title">AR Glasses & OEM</h3>
+                <p class="phase-text">Full AR glasses integration for a seamless heads-up driving experience, followed by partnerships with car manufacturers to embed Videmus as an OEM system.</p>
+                <span class="phase-tag">Future</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONTACT ───────────────────────────────────────────── -->
+    <section class="contact" id="contact">
+        <div class="contact-inner">
+            <p class="section-label">Get In Touch</p>
+            <h2 class="section-title">Interested in Videmus?</h2>
+            <p class="contact-text">Whether you are a driving school, an investor, a potential partner, or simply curious about what we are building — we would love to hear from you.</p>
+            <a href="mailto:plamen.l.trendafilov@gmail.com" class="contact-email">plamen.l.trendafilov@gmail.com</a>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ────────────────────────────────────────────── -->
+    <footer>
+        <span class="footer-name">VIDEMUS</span>
+        <span class="footer-motto">We guide the driver</span>
+        <span class="footer-copy">© 2026 Videmus</span>
+    </footer>
+
+</body>
+</html>
